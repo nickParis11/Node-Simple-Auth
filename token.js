@@ -3,7 +3,7 @@ log('in token.js');
 let token, verifyToken;
 
 // Global app parameters
-const secret = '___FbRcExDis*"HsEdRfE__';
+const secret = '___FbRcExDis*"HsEdRfE__'; // in production i would put the secret in an external file on the server and read it using node, i would not push that file on github
 
 // external modules
 const jwt = require('jsonwebtoken');
