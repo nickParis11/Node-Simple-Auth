@@ -54,7 +54,7 @@ app.post('/api/adduser',function(req,res){
 		if (err) {
 			return err;
 		}
-		const userToken = token.getToken(user.username,user.email); 
+		const userToken = token.getToken(user.username,user.email); // would use a callback pattern here as in routing securization section below.
 
 		res.status(200).send('good to go, inserted : '+JSON.stringify(userToken));
 
@@ -76,12 +76,24 @@ app.use(function (req,res,next){
 	const providedToken = req.body.token || req.headers['x-access-token'];
 	// if token
 	if ( providedToken ) {
+
+		token.verifyToken( providedToken, (err,result) => {
+
+			if (err) {
+				res.send('invalid token provided');
+			}
+			next();
+
+		}) 
+		/*
 	 //if decode token
 	 if ( token.verifyToken( providedToken ) ) {
 	 	 next();
 	 } else { 	// else token didnt match
 		res.send('invalid token provided');
 	 } 
+
+	 */
 	} else { // else no token found
 		res.send('no token provided');
 	}

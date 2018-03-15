@@ -17,16 +17,18 @@ getToken = function (username,email) {
 
 };
 
-verifyToken = function (token)  {
+verifyToken = function (token,cb)  {
 	
 	let verify = jwt.verify(token, secret,function(err, decoded) {
-	  
-	  if (err) log('token did not match');
-	  log ('succesfully retrieved token');
+	  if (err) {
+	  	log('token did not match');
+	  	cb(err);
+	  	return;
+	  };
+	  cb(null,true); 
 	});
-
+	log('verify = ',verify);
 	return verify;
-
 }
 
 module.exports.verifyToken = verifyToken;
