@@ -4,7 +4,7 @@ const log = console.log;
 const express = require('express');
 const body = require('body-parser');
 const mongoose = require('mongoose');
-//const bcrypt = require('bcrypt');
+
 
 
 // internal modules
@@ -41,21 +41,23 @@ app.post('/api/adduser',function(req,res){
 		password : req.body.password
 	})
 
-	log('B4 save');
+	let didTimeOut = true;
 
 	user.save(function (err) {
 		log('in save');
 	if (err) return err;
 		log('successfully saved user : ',user);
 		res.status(200).send('good to go, inserted : '+JSON.stringify(user));
+		didTimeOut = false;
 	})
 
-	setTimeout(function () {
-		res.status(500).send('something went wrong when inserting : '+JSON.stringify(user));
-	},4000)
-
+	setTimeout(function () 
+		{
+			if ( didTimeOut ) {
+				res.status(500).send('something went wrong when inserting : '+JSON.stringify(user));
+			}
+		}, 4000 );
 })
-
 
 // instanciate server
 app.listen(port,function() {

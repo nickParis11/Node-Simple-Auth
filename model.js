@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 
 console.log('in model.js');
@@ -25,6 +25,8 @@ const schema = new mongoose.Schema({
 	}
 });
 
+
+
 schema.pre('save', function(next) {
 	const user = this;
 	bcrypt.hash(user.password, 10, function(err, hash) {
@@ -37,3 +39,4 @@ schema.pre('save', function(next) {
 const User = mongoose.model('User', schema);
 
 module.exports = User;
+
