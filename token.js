@@ -27,8 +27,6 @@ verifyToken = function (token,cb)  {
 	  };
 	  cb(null,true); 
 	});
-	log('verify = ',verify);
-	return verify;
 }
 
 module.exports.verifyToken = verifyToken;
